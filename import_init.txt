@@ -1,0 +1,15 @@
+
+// image decoders
+import (
+	"image"
+
+	_ "image/png"
+	_ "image/jpeg"
+)
+
+// database drivers
+import (
+	"database/sql"
+
+	_ "github.com/lib/pq"
+)

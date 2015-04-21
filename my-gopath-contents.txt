@@ -1,0 +1,20 @@
+/Users/igorrumiha/Work/gopath
+├── bin
+├── pkg
+│   └── darwin_amd64
+│       ├── github.com
+│       │   ├── ActiveState
+│       │   ├── andlabs
+...
+└── src
+    ├── git.eclipse.org
+    │   └── gitroot
+    │       └── paho
+    ├── github.com
+    │   ├── ActiveState
+    │   │   └── tail
+    │   ├── GeertJohan
+    │   │   └── gomatrix
+    │   ├── andlabs
+    │   │   └── ui
+...

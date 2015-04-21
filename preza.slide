@@ -1,0 +1,146 @@
+Praktični Go
+Što i kako nakon "Hello World"?
+
+Igor Rumiha
+CEO, CTO, Programer, Veseli Mačak
+igor-rumiha@veseli-macak.net
+@irrummi
+
+* Hello world?
+
+Za one koji to još nisu napravili:
+
+.play hello.go
+
+* Sleepsort
+
+.code sleepsort.go /^func main/,/^}/
+
+.code sleepsort.go /^func sleepsort/,/^}/
+
+* Sleepsort
+
+.code sleepsort.go /^func collectResults/,/^}/
+
+* Sleepsort
+
+.play sleepsort.go /^func main/,/^}/
+
+* Natrag u stvarni svijet
+
+* Instalacija Go okruženja
+
+- golang.org - uvijek najnovije verzije, za Windows platformu jedino rješenje
+
+- paketni sustavi - apt, yum, itd. - kasne i nekoliko verzija, no možete koristiti neslužbene repozitorije
+
+- Gentoo linux, Arch linux, OS X: homebrew - razumno brzo se pojavljuju nove verzije
+
+* Go alati
+
+.code go-installation.txt
+
+.code go-tools.txt
+
+* Go alati
+
+Cijeli zoološki vrt pun čudnih imena
+
+- compiler *c (5c, 6c, 8c), *g (5g, 6g, 8g)
+- assembler *a (5a, 6a, 8a)
+- linker *l (5l, 6l, 8l)
+
+Detalji na [[https://golang.org/cmd/]]
+
+Svi važni Go alati objedinjeni su pod "go" alat.
+
+Često korištene "go" naredbe:
+
+- go get
+- go build
+- go run
+- go fmt
+
+* GOPATH
+
+- globalni "workspace" za sav Go kod, i vaš i od drugih programera.
+
+- moj GOPATH: 
+
+.code my-gopath.txt
+
+* GOPATH
+
+.code my-gopath-contents.txt
+
+* Go package sustav
+
+Zamišljen kao efikasnija zamjena za C/C++ include direktive + linkanje.
+
+Cilj je postignut: prevođenje Go koda je nemjerljivo brže od C i C++ koda.
+
+* Importi
+
+.code import_demo.go /^import/,/^\)/
+
+.play import_demo.go /^func main/,/^}/
+
+* Što se desilo?
+
+U datoteci `$GPOPATH/src/github.com/irumiha/preza/intro/intro.go`:
+
+.code intro/intro.go
+
+Nepisano je pravilo da package imenujemo jednako kao i zadnja komponenta u stazi datoteke, ali ništa nas ne sprečava da koristimo različita imena. 
+
+* Relativni importi (van GOPATH-a)
+
+.play relativepath.go
+
+* Što se dešava pri pokretanju aplikacije
+
+- import svih paketa iz main
+- rekurzivno import svih paketa koje ti paketi importaju
+.image Imports.png _ 700
+- incijalizacija svih toplevel konstanti i varijabli
+- pozivanje init() funkcija
+- pozivanje main() funkcije u main paketu
+
+* Zgodna primjena init() funkcija
+
+.code import_init.txt /\/\/ image/,/^\)/
+
+.code import_init.txt /\/\/ database/,/^\)/
+
+* Kako raditi projekte u $GOPATH
+
+Go projekti nemaju "uobičajenu" bin, doc, etc, lib, src itd. strukturu
+
+Go team preporuča (zapravo propisuje) korištenje samo jednog $GOPATH-a na računalu
+
+Preporuča se korištenje nekog domain prefiksa - preporučljivo je da to bude staza za `go get` alat
+
+github.com/irumiha/preza
+
+* Vendoring
+
+* Go doc
+
+* Go test
+
+* Ostalo: error values
+
+* Exceptioni - zašto
+
+* Exceptioni - zašto ne
+ 
+- citat iz FP in Scala
+
+* error - basics
+
+* error primjeri
+
+* Go gotchas
+
+- go je call by value
+

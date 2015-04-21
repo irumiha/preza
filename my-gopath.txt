@@ -1,0 +1,1 @@
+/Users/igorrumiha/Work/gopath:/Users/igorrumiha/Work/gopath-local
