@@ -75,9 +75,9 @@ Svi važni Go alati objedinjeni su pod "go" alat.
 
 * Go package sustav
 
-Zamišljen kao efikasnija zamjena za C/C++ include direktive + linkanje.
+- zamišljen kao efikasnija zamjena za C/C++ include direktive + linkanje.
 
-Cilj je postignut: prevođenje Go koda je nemjerljivo brže od C i C++ koda.
+- cilj je postignut: prevođenje Go koda je nemjerljivo brže od C i C++ koda.
 
 * Importi
 
@@ -87,11 +87,11 @@ Cilj je postignut: prevođenje Go koda je nemjerljivo brže od C i C++ koda.
 
 * Što se desilo?
 
-U datoteci `$GPOPATH/src/github.com/irumiha/preza/intro/intro.go`:
+- u datoteci `$GPOPATH/src/github.com/irumiha/preza/intro/intro.go`:
 
 .code intro/intro.go
 
-Nepisano je pravilo da package imenujemo jednako kao i zadnja komponenta u stazi datoteke, ali ništa nas ne sprečava da koristimo različita imena. 
+- nepisano je pravilo da package imenujemo jednako kao i zadnja komponenta u stazi datoteke, ali ništa nas ne sprečava da koristimo različita imena. 
 
 * Relativni importi (van GOPATH-a)
 
@@ -114,33 +114,123 @@ Nepisano je pravilo da package imenujemo jednako kao i zadnja komponenta u stazi
 
 * Kako raditi projekte u $GOPATH
 
-Go projekti nemaju "uobičajenu" bin, doc, etc, lib, src itd. strukturu
+- Go projekti nemaju "uobičajenu" bin, doc, etc, lib, src itd. strukturu
 
-Go team preporuča (zapravo propisuje) korištenje samo jednog $GOPATH-a na računalu
+- Go team preporuča (zapravo propisuje) korištenje samo jednog $GOPATH-a na računalu
 
-Preporuča se korištenje nekog domain prefiksa - preporučljivo je da to bude staza za `go get` alat
+- preporuča se korištenje nekog domain prefiksa - preporučljivo je da to bude staza za `go get` alat
 
-github.com/irumiha/preza
+.code gopkg.txt
 
 * Vendoring
 
+- go get i github.com kao najpopularnija kombinacija distribucije Go koda rade super dok radite razvoj.
+
+- što se dešava nakon 2 godine kad poželite ponovno kompajlirati vaš kod?
+
+- API paketa koje ste koristili su se promijenili
+
+- neki paketi više i ne postoje
+
+- rješenje (u nastajanju): vendoring i import path rewriting
+
+* Vendoring 
+
+- alati nastali u Go zajednici (trenutno popularni su "godep" i "nut")
+- smjesti kopije vaših dependencija u poddirektorij vašeg projekta,
+- snime se metapodaci kao git revizija ili tag i sl.
+- pomažu u podešavanju $GOPATH varijable da se koristi lokalna kopija.
+
+
+* Vendoring
+
+- ako ste se odlučili za *import*path*rewriting* tada source vaših depencencija postaje "vaš".
+
+- import izgleda ovako:
+
+.code vendored_rewritten.txt
+
+
+Vaš workflow će morati uključivati povremeno pokretanje vendoring alata koji će osvježiti svoje metapodatke ili napraviti nove kopije koda ako ste dodavali dependencije
+
+* Alternativni pristupi build proceduri
+
+- Makefile!
+
+- lokalno kreiranje $GOPATH okruženja
+
+- kakvo god rješenje bilo, uključivat će nekakvi oblik vendoringa.
+
 * Go doc
+
+- Go alati uključuju i generator dokumentacije:
+
+.code godoc_tool.txt
+
+- rezultat je mini site po dizajnu sličan golang.org, koji sadrži tutoriale i standardnu dokumentaciju ali i dokumentaciju svih paketa koje ste vi napravili ili naknadno instalirali u $GOPATH
+
+- kako dokumentirati objašnjeno je na [[http://blog.golang.org/godoc-documenting-go-code]]
 
 * Go test
 
-* Ostalo: error values
+- testovi se tipično pišu u istom packageu u kojem je kod koji se testira
+- u datoteku *_test.go smjeste se test funkcije čije ime mora počinjati sa Test i moraju primati samo jedan argument tipa `t *testing.T`
+
+- go test alat se stalno razvija (u verziji 1.4 dobio je coverage feature)
+
+- go test ima mnogo opcija, istražite ih!
+
+* Go test
+
+.code testex.go
+
+* Ostalo: error vrijednosti
 
 * Exceptioni - zašto
 
+- "elegantan" postupak za tretiranje grešaka
+- svi smo naučeni na exceptione iz ostalih mainstream jezika
+
 * Exceptioni - zašto ne
- 
-- citat iz FP in Scala
 
-* error - basics
+- funkcije prestaju biti referencijalno transparentne - vrlo važan koncept ako se želite stilom programiranja približiti funkcionalnom programiranju
+- pojam "referentially transparent" znači da funkcija uz isti ulaz uvijek daje isti izlaz
+- funkcija koja "baca" exception ne samo da povremeno vraća različite rezultate već ponekad vraća rezultate različitog tipa!
 
-* error primjeri
+- nisu type-safe
 
-* Go gotchas
+* errors - osnove
 
-- go je call by value
+.code error_interface.go
+.code errors.go
+
+* panic/recover
+
+- mehanizam koji Go-u daje exception-like ponašanje
+.code panic_recover.go
+
+* errors - lista za čitanje
+
+- [[http://blog.golang.org/error-handling-and-go]]
+- [[https://justinas.org/best-practices-for-errors-in-go/]]
+- [[https://groups.google.com/forum/#!topic/golang-nuts/HOXNBQu5c-Q%5B1-25%5D]]
+
+* Go iznenađenja
+
+- go call by value semantika
+- range operator stvara kopije objekata 
+- multicore: bez dodatnih opcija ili koda vaš Go program neće koristiti više od jedne CPU jezgre
+
+* Go pozitivna iznenađenja
+
+Interfaces.
+Može ih se koristiti na 100 načina:
+
+- elegantno "spajanje" funkcionalnosti vašeg programa
+- dependency injection
+- testiranje (mocking funkcionalnost)
+
+Potreba za resursima (memorija, CPU).
+
+Gušt u programiranju :)
 
